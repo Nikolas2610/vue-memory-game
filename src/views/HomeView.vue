@@ -4,7 +4,7 @@
       <div class="col text-center text-white display-2">Memory Game</div>
     </div>
     <div class="row mt-4">
-      <div v-for="(card) in cards" :key="card.id" class="col mt-4">
+      <div v-for="(card) in cards" :key="card.id" class="col mt-4 border text-center">
         <FLipCard @click="turnCard(card.id)" :card="card" />
       </div>
     </div>
@@ -33,6 +33,8 @@ export default defineComponent({
       newGame: false,
       result: '',
       selectedCard: -1,
+      openCardOne: false,
+      openCardTwo: false,
       cards: [
         { match: 0, image: require('@/assets/images/1.jpg'), finish: false, rotateCard: false, id: 0 },
         { match: 1, image: require('@/assets/images/2.jpg'), finish: false, rotateCard: false, id: 1 },
@@ -58,7 +60,14 @@ export default defineComponent({
   },
   methods: {
     turnCard(index: number) {
-      const pos = this.cards.findIndex(card => card.id === index)
+      if (this.openCardOne && this.openCardTwo) {
+        return
+      } else if (this.openCardOne && !this.openCardTwo) {
+        this.openCardTwo = true;
+      } else {
+        this.openCardOne = true;
+      }
+      const pos = this.cards.findIndex(card => card.id === index);
       if (!this.cards[pos].finish) {
         this.cards[pos].rotateCard = !this.cards[pos].rotateCard;
         if (this.selectedCard === -1) {
@@ -76,6 +85,8 @@ export default defineComponent({
               this.result = 'Win'
               this.newGame = true;
             }
+            this.openCardOne = false;
+            this.openCardTwo = false;
           } else {
             this.mistakes++;
             this.result = 'Wrong Combo'
@@ -84,7 +95,10 @@ export default defineComponent({
               this.cards[pos2].rotateCard = false;
               this.cards[pos].rotateCard = false;
               this.selectedCard = -1;
+              this.openCardOne = false;
+              this.openCardTwo = false;
             }, 1500);
+
           }
         }
       }
@@ -116,4 +130,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+
 </style>
