@@ -76,11 +76,9 @@ export default defineComponent({
           const pos2 = this.cards.findIndex(card => card.id === this.selectedCard)
           if (this.cards[pos2].match === this.cards[pos].match) {
             this.result = 'Match'
-            console.log('Match')
             this.cards[pos2].finish = true;
             this.cards[pos].finish = true;
             this.selectedCard = -1;
-            console.log(this.checkWinner())
             if (this.checkWinner()) {
               this.result = 'Win'
               this.newGame = true;
@@ -90,7 +88,6 @@ export default defineComponent({
           } else {
             this.mistakes++;
             this.result = 'Wrong Combo'
-            console.log('wrong combo')
             setTimeout(() => {
               this.cards[pos2].rotateCard = false;
               this.cards[pos].rotateCard = false;
