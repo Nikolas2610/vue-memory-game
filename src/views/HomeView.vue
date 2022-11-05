@@ -121,6 +121,7 @@ export default defineComponent({
       });
       this.result = '';
       this.mistakes = 0;
+      this.shuffleArray(this.cards)
     }
   },
   mounted() {
